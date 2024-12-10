@@ -1,6 +1,10 @@
 import 'package:app_devfest/components/CustomTextField.dart';
 import 'package:app_devfest/components/CustomTextFieldPassword.dart';
-import 'package:app_devfest/on%20boarding/Registre/registreScreen.dart';
+import 'package:app_devfest/on%20boarding/Registre/registreScreen.dart'; // Import necessary screens
+import 'package:app_devfest/on%20boarding/add%20files/addFiles.dart';
+import 'package:app_devfest/on%20boarding/confirmation%20identity/confirmation.dart';
+import 'package:app_devfest/on%20boarding/plans/plans.dart';
+import 'package:app_devfest/stepper/stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -86,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold, color: Colors.white)),
                   ),
 
-                  // Register Button (Navigate to Register Screen)
+                  // Register Button (Navigate to HorizontalStepper)
                   const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +102,17 @@ class LoginScreen extends StatelessWidget {
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const RegistreScreen(),
+                              builder: (context) => HorizontalStepper(
+                                steps: [
+                                  RegistreScreen(), // Step 1
+                                  AddFiles(), // Step 2
+                                  IdentityConfirmation(), // Step 3
+                                  Plans(), // Step 4
+                                ],
+                                onStepTapped: (index) {
+                                  print("Tapped on step $index");
+                                },
+                              ),
                             ));
                           },
                           child: Text(

@@ -1,133 +1,121 @@
+import 'package:app_devfest/cubit/Registre%20Cubit/registre_cubit.dart';
+import 'package:app_devfest/cubit/Registre%20Cubit/registre_state.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:app_devfest/components/CustomTextField.dart';
 import 'package:app_devfest/components/CustomTextFieldPassword.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class RegistreScreen extends StatefulWidget {
+class RegistreScreen extends StatelessWidget {
   const RegistreScreen({super.key});
 
   @override
-  State<RegistreScreen> createState() => _RegistreScreenState();
-}
-
-class _RegistreScreenState extends State<RegistreScreen> {
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  bool isChecked = false; // State for the checkbox
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Center(child: Image.asset('assets/images/pattern.png')),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  // Email TextField
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Center(
-                      child: Image.asset('assets/images/logo.png'),
-                    ),
-                  ),
-                  CustomTextField(
-                    passwordController: fullNameController,
-                    hintText: 'Enter Your Full Name',
-                    text: 'Full Name',
-                  ),
-                  CustomTextField(
-                    passwordController: emailController,
-                    hintText: 'Enter Email Address',
-                    text: 'Email Address',
-                  ),
-                  CustomTextFieldPassword(
-                    passwordController: passwordController,
-                    hintText: 'Enter Password',
-                    text: 'Create Password',
-                    obscureText: true,
-                  ),
-                  CustomTextFieldPassword(
-                    passwordController: confirmPasswordController,
-                    hintText: 'Enter Password',
-                    text: 'Confirm Password',
-                    obscureText: true,
-                  ),
+    final TextEditingController fullNameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
+    bool isChecked = false;
 
-                  // Checkbox with Text
-                  Row(
+    return Scaffold(
+      body: BlocProvider(
+        create: (_) => RegisterCubit(),
+        child: BlocListener<RegisterCubit, RegisterState>(
+          listener: (context, state) {
+            if (state is RegisterFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
+            } else if (state is RegisterSuccess) {
+              Navigator.pushReplacementNamed(context,
+                  '/home'); // Navigate to the home screen or desired page
+            }
+          },
+          child: Stack(
+            children: [
+              Center(child: Image.asset('assets/images/pattern.png')),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
                     children: [
-                      Checkbox(
-                        activeColor: Color(0xFF394496),
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value ?? false;
-                          });
-                        },
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Center(
+                            child: Image.asset('assets/images/logo.png')),
                       ),
-                      Expanded(
+                      CustomTextField(
+                        passwordController: fullNameController,
+                        hintText: 'Enter Your Full Name',
+                        text: 'Full Name',
+                      ),
+                      CustomTextField(
+                        passwordController: emailController,
+                        hintText: 'Enter Email Address',
+                        text: 'Email Address',
+                      ),
+                      CustomTextFieldPassword(
+                        passwordController: passwordController,
+                        hintText: 'Enter Password',
+                        text: 'Create Password',
+                        obscureText: true,
+                      ),
+                      CustomTextFieldPassword(
+                        passwordController: confirmPasswordController,
+                        hintText: 'Enter Password',
+                        text: 'Confirm Password',
+                        obscureText: true,
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            activeColor: const Color(0xFF394496),
+                            value: isChecked,
+                            onChanged: (bool? value) {
+                              isChecked = value ?? false;
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              "I agree to the terms and conditions",
+                              style: GoogleFonts.poppins(fontSize: 14),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      MaterialButton(
+                        onPressed: () {
+                          context.read<RegisterCubit>().register(
+                                fullName: fullNameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                confirmPassword: confirmPasswordController.text,
+                                isChecked: isChecked,
+                              );
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        minWidth: MediaQuery.of(context).size.width * 0.9,
+                        height: 60,
+                        color: const Color(0xFF394496),
                         child: Text(
-                          "I agree to the terms and conditions",
-                          style: GoogleFonts.poppins(fontSize: 14),
+                          'Continue',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-
-                  // Login Button
-                  MaterialButton(
-                    onPressed: () {
-                      if (isChecked) {
-                        // Proceed with form submission
-                      } else {
-                        // Show a message to accept terms
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            behavior:
-                                SnackBarBehavior.floating, // Makes it floating
-                            margin: const EdgeInsets.all(
-                                16), // Adds margin around the SnackBar
-                            content: const Text(
-                                "Please accept the terms and conditions."),
-                            // Optional: customize background color
-                          ),
-                        );
-                      }
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    minWidth: MediaQuery.of(context).size.width * 0.9,
-                    height: 60,
-                    color: const Color(0xFF394496),
-                    child: Text('Continue',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white)),
-                  ),
-
-                  // Register Button (Navigate to Register Screen)
-                  const SizedBox(height: 15),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
