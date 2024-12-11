@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController passwordController;
+  final TextEditingController controller;
   final String text, hintText;
   CustomTextField(
       {super.key,
-      required this.passwordController,
+      required this.controller,
       required this.text,
       required this.hintText});
 
@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
         const SizedBox(height: 16),
         // Password TextField
         TextField(
-          controller: passwordController,
+          controller: controller,
           decoration: InputDecoration(
               hintText: hintText,
               border: const OutlineInputBorder(

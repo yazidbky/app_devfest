@@ -2,7 +2,7 @@ import 'package:app_devfest/components/customButton.dart';
 import 'package:app_devfest/components/guaranteesAndOptions.dart';
 import 'package:app_devfest/components/offersCard.dart';
 import 'package:app_devfest/components/preMadePacks.dart';
-import 'package:app_devfest/on%20boarding/plans/selectedOptionsCubit.dart';
+import 'package:app_devfest/registration%20of%20assurance/plans/selectedOptionsCubit.dart';
 import 'package:app_devfest/utils/mainColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +40,7 @@ class Plans extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 Center(
-                  child: Image.asset('assets/images/logo.png'),
+                  child: Image.asset('assets/images/logo2.png'),
                 ),
                 const SizedBox(height: 20),
                 Text(

@@ -37,6 +37,9 @@ dependencies:
   flutter_bloc: ^8.1.6
   google_fonts: ^6.2.1
   horizontal_stepper_flutter: ^1.0.3
+  camera: ^0.11.0+2
+  image_picker: ^1.1.2
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:

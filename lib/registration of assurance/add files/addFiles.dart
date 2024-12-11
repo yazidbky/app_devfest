@@ -32,7 +32,7 @@ class AddFiles extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Center(
-                    child: Image.asset('assets/images/logo.png'),
+                    child: Image.asset('assets/images/logo2.png'),
                   ),
                 ),
                 const UploadCard(

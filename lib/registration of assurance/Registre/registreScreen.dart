@@ -43,15 +43,15 @@ class RegistreScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Center(
-                            child: Image.asset('assets/images/logo.png')),
+                            child: Image.asset('assets/images/logo2.png')),
                       ),
                       CustomTextField(
-                        passwordController: fullNameController,
+                        controller: fullNameController,
                         hintText: 'Enter Your Full Name',
                         text: 'Full Name',
                       ),
                       CustomTextField(
-                        passwordController: emailController,
+                        controller: emailController,
                         hintText: 'Enter Email Address',
                         text: 'Email Address',
                       ),

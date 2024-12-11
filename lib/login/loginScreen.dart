@@ -1,9 +1,10 @@
 import 'package:app_devfest/components/CustomTextField.dart';
 import 'package:app_devfest/components/CustomTextFieldPassword.dart';
-import 'package:app_devfest/on%20boarding/Registre/registreScreen.dart'; // Import necessary screens
-import 'package:app_devfest/on%20boarding/add%20files/addFiles.dart';
-import 'package:app_devfest/on%20boarding/confirmation%20identity/confirmation.dart';
-import 'package:app_devfest/on%20boarding/plans/plans.dart';
+import 'package:app_devfest/home/home.dart';
+import 'package:app_devfest/registration%20of%20assurance/Registre/registreScreen.dart'; // Import necessary screens
+import 'package:app_devfest/registration%20of%20assurance/add%20files/addFiles.dart';
+import 'package:app_devfest/registration%20of%20assurance/confirmation%20identity/confirmation.dart';
+import 'package:app_devfest/registration%20of%20assurance/plans/plans.dart';
 import 'package:app_devfest/stepper/stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +30,7 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Center(
-                      child: Image.asset('assets/images/logo.png'),
+                      child: Image.asset('assets/images/logo2.png'),
                     ),
                   ),
                   Align(
@@ -46,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 50),
                   CustomTextField(
-                    passwordController: emailController,
+                    controller: emailController,
                     hintText: 'Enter Your Email',
                     text: 'Email',
                   ),
@@ -76,6 +77,11 @@ class LoginScreen extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Login Successful!')),
                       );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Home(),
+                          ));
 
                       // Navigate to another screen or perform any other action after login
                     },

@@ -5,21 +5,23 @@ class CustomButton extends StatelessWidget {
   final String text;
   final Color? color, textColor;
   final Color borderColor;
+  final void Function()? onPressed;
 
-  const CustomButton(
-      {super.key,
-      required this.text,
-      this.color,
-      required this.borderColor,
-      this.textColor,
-      required Null Function() onPressed});
+  CustomButton({
+    super.key,
+    required this.text,
+    this.color,
+    required this.borderColor,
+    this.textColor,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: onPressed,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(color: borderColor)),

@@ -1,5 +1,7 @@
-import 'package:app_devfest/on%20boarding/Registre/registreScreen.dart';
-import 'package:app_devfest/login/loginScreen.dart';
+import 'package:app_devfest/home/homePage.dart';
+import 'package:app_devfest/sinistre/accidentType.dart';
+import 'package:app_devfest/sinistre/completeScreen.dart';
+import 'package:app_devfest/utils/mainColor.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -11,81 +13,74 @@ class Home extends StatefulWidget {
 
 class _NavigationBarState extends State<Home> {
   int selectedIndex = 0;
+
   static List<Widget> options = [
-    LoginScreen(),
-    RegistreScreen(),
-    const Placeholder(
-      color: Colors.green,
-    ),
-    const Placeholder(
-      color: Colors.grey,
-    ),
+    const HomePage(),
+    const Accidenttype(), // Updated: CameraPage is included here
+    const CompleteScreen(),
   ];
+
+  void _onItemTapped(int index) {
+    if (index == 1) {
+      // Navigate to the CameraPage screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => options[index], // Fetch CameraPage dynamically
+        ),
+      );
+    } else {
+      // Stay within the navigation bar
+      setState(() {
+        selectedIndex = index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: options.elementAt(selectedIndex)),
+      body: Center(
+        child: options.elementAt(selectedIndex), // Fetch widget dynamically
+      ),
       bottomNavigationBar: SafeArea(
-          child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10,
+                offset: Offset(0, 5),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.home,
-                        color: selectedIndex == 0 ? Colors.pink : Colors.grey,
-                        size: 30),
-                    onPressed: () {
-                      setState(() {
-                        selectedIndex = 0;
-                      });
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.sports_soccer,
-                        color: selectedIndex == 1 ? Colors.pink : Colors.grey,
-                        size: 30),
-                    onPressed: () {
-                      setState(() {
-                        selectedIndex = 1;
-                      });
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.star,
-                        color: selectedIndex == 2 ? Colors.pink : Colors.grey,
-                        size: 30),
-                    onPressed: () {
-                      setState(() {
-                        selectedIndex = 2;
-                      });
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.person,
-                      color: selectedIndex == 3 ? Colors.pink : Colors.grey,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        selectedIndex = 3;
-                      });
-                    },
-                  ),
-                ],
-              ))),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                icon: Icon(Icons.home,
+                    color: selectedIndex == 0 ? mainColor : Colors.grey,
+                    size: 30),
+                onPressed: () => _onItemTapped(0),
+              ),
+              InkWell(
+                  child: Image.asset('assets/images/add.png'),
+                  onTap: () {
+                    _onItemTapped(1);
+                  }),
+              IconButton(
+                icon: Icon(Icons.notifications,
+                    color: selectedIndex == 2 ? mainColor : Colors.grey,
+                    size: 30),
+                onPressed: () => _onItemTapped(2),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

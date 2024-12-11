@@ -31,44 +31,51 @@ class _HorizontalStepperState extends State<HorizontalStepper> {
           // Horizontal stepper
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(widget.steps.length, (index) {
+            children: List.generate(widget.steps.length * 2 - 1, (index) {
+              if (index.isOdd) {
+                // Add the line between circles
+                return Container(
+                  width: 30, // Adjust the width of the line
+                  height: 2, // Thickness of the line
+                  color: Colors.grey,
+                );
+              }
+              final stepIndex = index ~/ 2;
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    _currentStep = index;
+                    _currentStep = stepIndex;
                   });
-                  _pageController.animateToPage(index,
+                  _pageController.animateToPage(stepIndex,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.easeInOut);
-                  widget.onStepTapped(index); // Trigger the callback
+                  widget.onStepTapped(stepIndex); // Trigger the callback
                 },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor:
-                            _currentStep == index ? Colors.blue : Colors.grey,
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 16,
-                        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor:
+                          _currentStep == stepIndex ? Colors.blue : Colors.grey,
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 16,
                       ),
-                      SizedBox(height: 5),
-                      Text(
-                        "Step ${index + 1}",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              _currentStep == index ? Colors.blue : Colors.grey,
-                        ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      "Step ${stepIndex + 1}",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _currentStep == stepIndex
+                            ? Colors.blue
+                            : Colors.grey,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             }),
