@@ -1,23 +1,30 @@
+import 'dart:ui';
+
+import 'package:app_devfest/components/CustomTextField.dart';
+import 'package:app_devfest/components/CustomTextFieldPassword.dart';
 import 'package:app_devfest/cubit/Registre%20Cubit/registre_cubit.dart';
 import 'package:app_devfest/cubit/Registre%20Cubit/registre_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_devfest/components/CustomTextField.dart';
-import 'package:app_devfest/components/CustomTextFieldPassword.dart';
 
-class RegistreScreen extends StatelessWidget {
+class RegistreScreen extends StatefulWidget {
   const RegistreScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController fullNameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController =
-        TextEditingController();
-    bool isChecked = false;
+  _RegistreScreenState createState() => _RegistreScreenState();
+}
 
+class _RegistreScreenState extends State<RegistreScreen> {
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
         create: (_) => RegisterCubit(),
@@ -28,8 +35,10 @@ class RegistreScreen extends StatelessWidget {
                 SnackBar(content: Text(state.error)),
               );
             } else if (state is RegisterSuccess) {
-              Navigator.pushReplacementNamed(context,
-                  '/home'); // Navigate to the home screen or desired page
+              Navigator.pushReplacementNamed(
+                context,
+                '/home', // Navigate to the home screen or desired page
+              );
             }
           },
           child: Stack(
@@ -41,9 +50,10 @@ class RegistreScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Center(
-                            child: Image.asset('assets/images/logo2.png')),
+                          child: Image.asset('assets/images/logo2.png'),
+                        ),
                       ),
                       CustomTextField(
                         controller: fullNameController,
@@ -73,7 +83,9 @@ class RegistreScreen extends StatelessWidget {
                             activeColor: const Color(0xFF394496),
                             value: isChecked,
                             onChanged: (bool? value) {
-                              isChecked = value ?? false;
+                              setState(() {
+                                isChecked = value ?? false;
+                              });
                             },
                           ),
                           Expanded(
