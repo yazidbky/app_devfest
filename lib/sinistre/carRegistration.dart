@@ -2,7 +2,6 @@ import 'package:app_devfest/camera/cameraInitilization.dart';
 import 'package:app_devfest/components/customButton.dart';
 import 'package:app_devfest/sinistre/accidentsDetails.dart';
 import 'package:app_devfest/utils/mainColor.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';

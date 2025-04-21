@@ -17,7 +17,7 @@ class CompleteScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Center(
                   child: Image.asset('assets/images/logo2.png'),
                 ),
@@ -26,7 +26,7 @@ class CompleteScreen extends StatelessWidget {
                 height: 30,
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Center(
                   child: Image.asset('assets/images/check.png'),
                 ),

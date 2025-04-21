@@ -7,9 +7,8 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> login(String email, String password) async {
     emit(LoginLoading());
     try {
-      // Simulate login API call
-      await Future.delayed(Duration(seconds: 2));
-      // Assuming login success
+      await Future.delayed(const Duration(seconds: 2));
+
       emit(LoginSuccess());
     } catch (e) {
       emit(LoginFailure('Login failed. Please try again.'));

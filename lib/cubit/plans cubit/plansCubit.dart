@@ -23,7 +23,7 @@ class PlansCubit extends Cubit<PlansState> {
   void validateSelection() {
     emit(PlansValidationInProgress());
     // Simulate validation logic here (e.g., API call)
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       emit(PlansValidated());
     });
   }

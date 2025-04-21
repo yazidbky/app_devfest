@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart'; // Required for kIsWeb
 
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key}) : super(key: key);
+  const CameraPage({super.key});
 
   @override
   _CameraPageState createState() => _CameraPageState();

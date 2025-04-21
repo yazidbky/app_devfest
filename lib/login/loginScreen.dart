@@ -1,11 +1,8 @@
-import 'package:app_devfest/components/CustomTextField.dart';
+import 'package:app_devfest/components/custom_text_field.dart';
 import 'package:app_devfest/components/CustomTextFieldPassword.dart';
 import 'package:app_devfest/home/home.dart';
-import 'package:app_devfest/registration%20of%20assurance/Registre/registreScreen.dart'; // Import necessary screens
-import 'package:app_devfest/registration%20of%20assurance/add%20files/addFiles.dart';
-import 'package:app_devfest/registration%20of%20assurance/confirmation%20identity/confirmation.dart';
-import 'package:app_devfest/registration%20of%20assurance/plans/plans.dart';
-import 'package:app_devfest/stepper/stepper.dart';
+import 'package:app_devfest/stepper/stepper3.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   // Email TextField
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Center(
                       child: Image.asset('assets/images/logo2.png'),
                     ),
@@ -52,9 +49,9 @@ class LoginScreen extends StatelessWidget {
                     text: 'Email',
                   ),
                   CustomTextFieldPassword(
-                    passwordController: passwordController,
-                    hintText: 'Enter Your Full Name',
-                    text: 'Full Name',
+                    controller: passwordController,
+                    hintText: 'Enter Your Password',
+                    text: 'Password',
                     obscureText: true,
                   ),
 
@@ -90,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     minWidth: MediaQuery.of(context).size.width * 0.9,
                     height: 60,
-                    color: Color(0xFF394496),
+                    color: const Color(0xFF394496),
                     child: Text('Continue',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold, color: Colors.white)),
@@ -108,17 +105,7 @@ class LoginScreen extends StatelessWidget {
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HorizontalStepper(
-                                steps: [
-                                  RegistreScreen(), // Step 1
-                                  AddFiles(), // Step 2
-                                  IdentityConfirmation(), // Step 3
-                                  Plans(), // Step 4
-                                ],
-                                onStepTapped: (index) {
-                                  print("Tapped on step $index");
-                                },
-                              ),
+                              builder: (context) => const HorizontalStepper(),
                             ));
                           },
                           child: Text(

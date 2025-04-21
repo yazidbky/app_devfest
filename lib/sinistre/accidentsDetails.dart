@@ -1,4 +1,4 @@
-import 'package:app_devfest/components/CustomTextField.dart';
+import 'package:app_devfest/components/custom_text_field.dart';
 import 'package:app_devfest/components/customButton.dart';
 import 'package:app_devfest/sinistre/lastStep.dart';
 import 'package:app_devfest/utils/mainColor.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AccidentsDetails extends StatefulWidget {
-  AccidentsDetails({super.key});
+  const AccidentsDetails({super.key});
 
   @override
   _AccidentsDetailsState createState() => _AccidentsDetailsState();
@@ -36,7 +36,7 @@ class _AccidentsDetailsState extends State<AccidentsDetails> {
                 style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               CustomTextField(
@@ -65,7 +65,7 @@ class _AccidentsDetailsState extends State<AccidentsDetails> {
                 textAlign: TextAlign.left,
               ),
               CheckboxListTile(
-                title: Text('Drivable'),
+                title: const Text('Drivable'),
                 activeColor: mainColor,
                 value: isDrivable,
                 onChanged: (bool? value) {
@@ -79,7 +79,7 @@ class _AccidentsDetailsState extends State<AccidentsDetails> {
                 },
               ),
               CheckboxListTile(
-                title: Text('Undrivable'),
+                title: const Text('Undrivable'),
                 activeColor: mainColor,
                 value: isUndrivable,
                 onChanged: (bool? value) {

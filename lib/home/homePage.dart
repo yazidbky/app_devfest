@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Center(child: Image.asset('assets/images/logo2.png')),
             ),
             Padding(
@@ -62,7 +62,8 @@ class HomePage extends StatelessWidget {
                             color: mainColor,
                             width: 1,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

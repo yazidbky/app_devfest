@@ -17,7 +17,7 @@ class YourCars extends StatelessWidget {
               color: mainColor,
               width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -30,7 +30,7 @@ class YourCars extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: EdgeInsets.all(2),
+                padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
                     color: Colors.blue[50],
                     borderRadius: const BorderRadius.all(Radius.circular(5))),

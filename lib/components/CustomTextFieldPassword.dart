@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextFieldPassword extends StatelessWidget {
-  final TextEditingController passwordController;
+  final TextEditingController controller;
   final String text, hintText;
   final bool obscureText;
-  CustomTextFieldPassword(
+  const CustomTextFieldPassword(
       {super.key,
-      required this.passwordController,
+      required this.controller,
       required this.text,
       required this.hintText,
       required this.obscureText});
@@ -26,7 +26,7 @@ class CustomTextFieldPassword extends StatelessWidget {
         const SizedBox(height: 16),
         // Password TextField
         TextField(
-          controller: passwordController,
+          controller: controller,
           decoration: InputDecoration(
               suffixText: 'Show',
               suffixStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500),

@@ -29,7 +29,7 @@ class OffersCard extends StatelessWidget {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
-                child: Placeholder(),
+                child: const Placeholder(),
               ),
             ),
             Padding(

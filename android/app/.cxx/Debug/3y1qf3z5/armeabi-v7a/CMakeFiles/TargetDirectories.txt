@@ -1,0 +1,2 @@
+C:/Users/Yazid/OneDrive/Documents/App development/app_devfest/android/app/.cxx/Debug/3y1qf3z5/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Yazid/OneDrive/Documents/App development/app_devfest/android/app/.cxx/Debug/3y1qf3z5/armeabi-v7a/CMakeFiles/rebuild_cache.dir
