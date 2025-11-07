@@ -17,23 +17,28 @@ class _AccidenttypeState extends State<Accidenttype> {
     {
       'text': 'Mechanic',
       'subText': 'Issues with your car?',
-      'buttonText': 'Select Mechanic',
+      'buttonText': 'Select ',
+      'buttonTextSelected': 'Selected ',
     },
     {
       'text': 'Material',
       'subText': 'Need material support?',
-      'buttonText': 'Select Material',
+      'buttonText': 'Select ',
+      'buttonTextSelected': 'Selected ',
     },
   ];
 
-  Set<String> selectedOptions = {}; // Local state for selected options
+  // Change from Set to String to track a single selection
+  String? selectedOption;
 
   void toggleOption(String option) {
     setState(() {
-      if (selectedOptions.contains(option)) {
-        selectedOptions.remove(option);
+      // If the option is already selected, deselect it
+      if (selectedOption == option) {
+        selectedOption = null;
       } else {
-        selectedOptions.add(option);
+        // Otherwise, select this option (and automatically deselect any other)
+        selectedOption = option;
       }
     });
   }
@@ -87,32 +92,32 @@ class _AccidenttypeState extends State<Accidenttype> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GuaranteesAndOptions(
-                              iconColor:
-                                  selectedOptions.contains(firstOption['text']!)
-                                      ? Colors.white
-                                      : mainColor,
-                              textColor:
-                                  selectedOptions.contains(firstOption['text']!)
-                                      ? mainColor
-                                      : Colors.white,
+                              iconColor: selectedOption == firstOption['text']!
+                                  ? Colors.white
+                                  : mainColor,
+                              textColor: selectedOption == firstOption['text']!
+                                  ? mainColor
+                                  : Colors.white,
                               subTextColor:
-                                  selectedOptions.contains(firstOption['text']!)
+                                  selectedOption == firstOption['text']!
                                       ? Colors.white
                                       : mainColor,
                               backgourndColor:
-                                  selectedOptions.contains(firstOption['text']!)
+                                  selectedOption == firstOption['text']!
                                       ? mainColor
                                       : Colors.white,
                               buttontextColor:
-                                  selectedOptions.contains(firstOption['text']!)
+                                  selectedOption == firstOption['text']!
                                       ? mainColor
                                       : Colors.white,
                               borderColor: mainColor,
                               text: firstOption['text']!,
                               subText: firstOption['subText']!,
-                              buttonText: firstOption['buttonText']!,
+                              buttonText: selectedOption == firstOption['text']!
+                                  ? firstOption['buttonTextSelected']!
+                                  : firstOption['buttonText']!,
                               buttonColor:
-                                  selectedOptions.contains(firstOption['text']!)
+                                  selectedOption == firstOption['text']!
                                       ? Colors.white
                                       : mainColor,
                               onPressed: () {
@@ -126,34 +131,37 @@ class _AccidenttypeState extends State<Accidenttype> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GuaranteesAndOptions(
-                                iconColor: selectedOptions
-                                        .contains(secondOption['text']!)
-                                    ? Colors.white
-                                    : mainColor,
-                                textColor: selectedOptions
-                                        .contains(secondOption['text']!)
-                                    ? mainColor
-                                    : Colors.white,
-                                subTextColor: selectedOptions
-                                        .contains(secondOption['text']!)
-                                    ? Colors.white
-                                    : mainColor,
-                                backgourndColor: selectedOptions
-                                        .contains(secondOption['text']!)
-                                    ? mainColor
-                                    : Colors.white,
-                                buttontextColor: selectedOptions
-                                        .contains(secondOption['text']!)
-                                    ? mainColor
-                                    : Colors.white,
+                                iconColor:
+                                    selectedOption == secondOption['text']!
+                                        ? Colors.white
+                                        : mainColor,
+                                textColor:
+                                    selectedOption == secondOption['text']!
+                                        ? mainColor
+                                        : Colors.white,
+                                subTextColor:
+                                    selectedOption == secondOption['text']!
+                                        ? Colors.white
+                                        : mainColor,
+                                backgourndColor:
+                                    selectedOption == secondOption['text']!
+                                        ? mainColor
+                                        : Colors.white,
+                                buttontextColor:
+                                    selectedOption == secondOption['text']!
+                                        ? mainColor
+                                        : Colors.white,
                                 borderColor: mainColor,
                                 text: secondOption['text']!,
                                 subText: secondOption['subText']!,
-                                buttonText: secondOption['buttonText']!,
-                                buttonColor: selectedOptions
-                                        .contains(secondOption['text']!)
-                                    ? Colors.white
-                                    : mainColor,
+                                buttonText:
+                                    selectedOption == secondOption['text']!
+                                        ? secondOption['buttonTextSelected']!
+                                        : secondOption['buttonText']!,
+                                buttonColor:
+                                    selectedOption == secondOption['text']!
+                                        ? Colors.white
+                                        : mainColor,
                                 onPressed: () {
                                   toggleOption(secondOption['text']!);
                                 },
@@ -170,13 +178,22 @@ class _AccidenttypeState extends State<Accidenttype> {
                 text: 'Next',
                 borderColor: mainColor,
                 onPressed: () {
-                  print('Next button pressed');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SinistrePics(),
-                    ),
-                  );
+                  if (selectedOption != null) {
+                    print('Selected option: $selectedOption');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SinistrePics(),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please select an accident type'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 },
                 color: mainColor,
                 textColor: Colors.white,

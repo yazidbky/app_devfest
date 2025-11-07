@@ -1,11 +1,11 @@
 import 'package:app_devfest/components/yourCars.dart';
+import 'package:app_devfest/home/add_car.dart';
 import 'package:app_devfest/utils/mainColor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -53,17 +53,39 @@ class HomePage extends StatelessWidget {
                 children: [
                   const YourCars(),
                   const YourCars(),
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.21,
-                      width: MediaQuery.of(context).size.width * 0.21,
-                      decoration: BoxDecoration(
-                          color: Colors.blue[50],
-                          border: Border.all(
-                            color: mainColor,
-                            width: 1,
+                  const YourCars(),
+                  // Convert the Container to an InkWell or GestureDetector to make it tappable
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to the Add New Car page (using the AddFiles widget)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddCar(
+                            stepContinue: () {
+                              Navigator.pop(context);
+                            },
+                            stepCancel: () {
+                              Navigator.pop(context);
+                            },
+                            currentStep: 0,
+                            stepsLength: 1,
                           ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.21,
+                      width: MediaQuery.of(context).size.width * 0.27,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        border: Border.all(
+                          color: mainColor,
+                          width: 1,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -76,10 +98,14 @@ class HomePage extends StatelessWidget {
                             'Add\nNew Car',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500, fontSize: 15),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
                           )
                         ],
-                      )),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )

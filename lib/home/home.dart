@@ -1,6 +1,6 @@
 import 'package:app_devfest/home/homePage.dart';
-import 'package:app_devfest/sinistre/accidentType.dart';
-import 'package:app_devfest/sinistre/completeScreen.dart';
+import 'package:app_devfest/home/notification/notification_screen.dart';
+import 'package:app_devfest/sinistre/claim.dart';
 import 'package:app_devfest/utils/mainColor.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +16,8 @@ class _NavigationBarState extends State<Home> {
 
   static List<Widget> options = [
     const HomePage(),
-    const Accidenttype(), // Updated: CameraPage is included here
-    const CompleteScreen(),
+    const AccidentDetailsSubmission(), // Updated: CameraPage is included here
+    const NotificationScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -67,7 +67,9 @@ class _NavigationBarState extends State<Home> {
                 onPressed: () => _onItemTapped(0),
               ),
               InkWell(
-                  child: Image.asset('assets/images/add.png'),
+                  child: Image.asset(
+                    'assets/images/add.png',
+                  ),
                   onTap: () {
                     _onItemTapped(1);
                   }),

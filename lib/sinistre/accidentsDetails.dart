@@ -43,21 +43,25 @@ class _AccidentsDetailsState extends State<AccidentsDetails> {
                 controller: locationController,
                 text: 'Accident Location',
                 hintText: 'Enter the city or area where the accident occurred',
+                keyboardType: TextInputType.text,
               ),
               CustomTextField(
                 controller: wilayaController,
                 text: 'Wilaya',
                 hintText: 'Enter le wilaya',
+                keyboardType: TextInputType.text,
               ),
               CustomTextField(
                 controller: dateController,
                 text: 'Accident Date',
                 hintText: 'dd/mm/yyyy',
+                keyboardType: TextInputType.text,
               ),
               CustomTextField(
                 controller: timeController,
                 text: 'Accident Time',
                 hintText: 'exp:10:30 am',
+                keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 20),
               const Text(

@@ -1,15 +1,34 @@
-abstract class PlansState {}
+import 'package:app_devfest/api/plans/plans_api_service.dart';
 
-class PlansInitial extends PlansState {}
+abstract class InsuranceState {}
 
-class PlansLoaded extends PlansState {
-  final Set<String> selectedOptions;
+class InsuranceInitial extends InsuranceState {}
 
-  PlansLoaded({required this.selectedOptions});
+class InsuranceLoading extends InsuranceState {}
+
+class InsuranceSuccess extends InsuranceState {
+  final List<InsurancePlan> plans;
+  final String selectedInsuranceType;
+
+  InsuranceSuccess({
+    required this.plans,
+    this.selectedInsuranceType = 'mandatory',
+  });
+
+  InsuranceSuccess copyWith({
+    List<InsurancePlan>? plans,
+    String? selectedInsuranceType,
+  }) {
+    return InsuranceSuccess(
+      plans: plans ?? this.plans,
+      selectedInsuranceType:
+          selectedInsuranceType ?? this.selectedInsuranceType,
+    );
+  }
 }
 
-class PlansValidationInProgress extends PlansState {}
+class InsuranceFailure extends InsuranceState {
+  final String error;
 
-class PlansValidated extends PlansState {
-  // This state indicates that validation is complete
+  InsuranceFailure(this.error);
 }

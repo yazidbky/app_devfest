@@ -30,6 +30,9 @@ class _RegistreScreenState extends State<RegistreScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  final TextEditingController phoneController =
+      TextEditingController(); // Added for phone
+  final TextEditingController addressController = TextEditingController();
   bool isChecked = false;
 
   @override
@@ -40,7 +43,9 @@ class _RegistreScreenState extends State<RegistreScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.error)),
           );
-        } else if (state is RegisterSuccess) {}
+        } else if (state is RegisterSuccess) {
+          widget.stepContinue();
+        }
       },
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -54,12 +59,28 @@ class _RegistreScreenState extends State<RegistreScreen> {
                 controller: fullNameController,
                 hintText: 'Enter Your Full Name',
                 text: 'Full Name',
+                keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16),
               CustomTextField(
                 controller: emailController,
                 hintText: 'Enter Email Address',
                 text: 'Email Address',
+                keyboardType: TextInputType.text,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: phoneController,
+                hintText: 'Enter Phone Number',
+                text: 'Phone Number',
+                keyboardType: TextInputType.text,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: addressController,
+                hintText: 'Enter Your Address',
+                text: 'Address',
+                keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16),
               CustomTextFieldPassword(
@@ -96,34 +117,54 @@ class _RegistreScreenState extends State<RegistreScreen> {
                 ],
               ),
               const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 40,
-                    width: 150,
-                    margin: const EdgeInsets.all(10),
-                    child: ElevatedButton(
-                      onPressed: widget.stepContinue,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF394496),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
+              BlocBuilder<RegisterCubit, RegisterState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 150,
+                        margin: const EdgeInsets.all(10),
+                        child: ElevatedButton(
+                          onPressed: state is RegisterLoading
+                              ? null
+                              : () {
+                                  context.read<RegisterCubit>().register(
+                                        fullName: fullNameController.text,
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        confirmPassword:
+                                            confirmPasswordController.text,
+                                        phone: phoneController.text,
+                                        address: addressController.text,
+                                        isChecked: isChecked,
+                                      );
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF394496),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                          ),
+                          child: state is RegisterLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
+                              : Text(
+                                  widget.currentStep == widget.stepsLength - 1
+                                      ? 'Finish'
+                                      : 'Continue',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
                       ),
-                      child: Text(
-                        widget.currentStep == widget.stepsLength - 1
-                            ? 'Finish'
-                            : 'Continue',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 24),
             ],

@@ -1,30 +1,72 @@
+import 'package:app_devfest/api/plans/plans_api_service.dart';
 import 'package:app_devfest/cubit/plans%20cubit/plansState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PlansCubit extends Cubit<PlansState> {
-  PlansCubit() : super(PlansInitial());
+class InsuranceCubit extends Cubit<InsuranceState> {
+  final InsuranceApiService _apiService;
 
-  // To toggle selected guarantee options
-  void toggleGuaranteeOption(String option) {
-    final currentState = state;
-    if (currentState is PlansLoaded) {
-      final updatedSelectedOptions =
-          Set<String>.from(currentState.selectedOptions);
-      if (updatedSelectedOptions.contains(option)) {
-        updatedSelectedOptions.remove(option);
+  InsuranceCubit({InsuranceApiService? apiService})
+      : _apiService = apiService ?? InsuranceApiService(),
+        super(InsuranceInitial());
+
+  Future<void> getRecommendedPlans({
+    required String carType,
+    required int cv,
+    required String usage,
+    required int carYear,
+  }) async {
+    emit(InsuranceLoading());
+
+    // Input validation
+    if (carType.isEmpty || cv <= 0 || usage.isEmpty || carYear <= 0) {
+      emit(InsuranceFailure('Please provide valid car information'));
+      return;
+    }
+
+    try {
+      final result = await _apiService.getRecommendedPlans(
+        carType: carType,
+        cv: cv,
+        usage: usage,
+        carYear: carYear,
+      );
+
+      if (result['success'] == true) {
+        final plans = result['plans'] as List<InsurancePlan>;
+        if (plans.isEmpty) {
+          emit(InsuranceFailure(
+              'No insurance plans available for your car configuration'));
+        } else {
+          emit(InsuranceSuccess(plans: plans));
+        }
       } else {
-        updatedSelectedOptions.add(option);
+        emit(InsuranceFailure(result['error']?.toString() ??
+            'Failed to fetch plans from server'));
       }
-      emit(PlansLoaded(selectedOptions: updatedSelectedOptions));
+    } catch (e) {
+      emit(InsuranceFailure(
+          'An error occurred while fetching plans: ${e.toString()}'));
     }
   }
 
-  // For validating and processing the selected options
-  void validateSelection() {
-    emit(PlansValidationInProgress());
-    // Simulate validation logic here (e.g., API call)
-    Future.delayed(const Duration(seconds: 2), () {
-      emit(PlansValidated());
-    });
+  void changeInsuranceType(String insuranceType) {
+    if (state is InsuranceSuccess) {
+      final currentState = state as InsuranceSuccess;
+      emit(currentState.copyWith(selectedInsuranceType: insuranceType));
+    }
+  }
+
+  void retryFetchPlans({
+    required String carType,
+    required int cv,
+    required String usage,
+    required int carYear,
+  }) {
+    getRecommendedPlans(
+      carType: carType,
+      cv: cv,
+      usage: usage,
+      carYear: carYear,
+    );
   }
 }

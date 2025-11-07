@@ -1,3 +1,4 @@
+import 'package:app_devfest/local%20storage/save_userID.dart';
 import 'package:flutter/material.dart';
 import 'package:app_devfest/registration_of_assurance/Registre/registre_screen.dart';
 import 'package:app_devfest/registration_of_assurance/add%20files/addFiles.dart';
@@ -17,10 +18,19 @@ class _HorizontalStepperState extends State<HorizontalStepper> {
   late List<Widget> _steps;
   final ScrollController _scrollController = ScrollController();
 
+  String _carType = '';
+  int _cv = 0;
+  String _usage = '';
+  int _carYear = 0;
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _updateSteps(); // Initialize steps with current data
+  }
+
+  void _updateSteps() {
     _steps = [
       RegistreScreen(
         stepsLength: 4,
@@ -28,11 +38,31 @@ class _HorizontalStepperState extends State<HorizontalStepper> {
         stepCancel: _stepCancel,
         currentStep: _currentStep,
       ),
-      AddFiles(
-        stepsLength: 4,
-        stepContinue: _stepContinue,
-        stepCancel: _stepCancel,
-        currentStep: _currentStep,
+      FutureBuilder<String>(
+        future: getUserId(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return AddFiles(
+              stepsLength: 4,
+              stepContinue: _stepContinue,
+              stepCancel: _stepCancel,
+              currentStep: _currentStep,
+              userId: snapshot.data,
+              onCarDetailsSubmitted: (type, cv, usage, year) {
+                setState(() {
+                  _carType = type;
+                  _cv = cv;
+                  _usage = usage;
+                  _carYear = year;
+                });
+              },
+            );
+          }
+        },
       ),
       IdentityConfirmation(
         stepsLength: 4,
@@ -45,6 +75,11 @@ class _HorizontalStepperState extends State<HorizontalStepper> {
         stepContinue: _stepContinue,
         stepCancel: _stepCancel,
         currentStep: _currentStep,
+        carType: _carType,
+        cv: _cv,
+        usage: _usage,
+        carYear: _carYear,
+        key: ValueKey('plans-$_carType-$_cv-$_usage-$_carYear'), // Unique key
       ),
     ];
   }
@@ -60,6 +95,7 @@ class _HorizontalStepperState extends State<HorizontalStepper> {
     if (_currentStep < _steps.length - 1) {
       setState(() {
         _currentStep++;
+        _updateSteps(); // Rebuild steps with latest data
       });
       _pageController.animateToPage(
         _currentStep,
